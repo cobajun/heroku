@@ -34,7 +34,7 @@ class ProfileController extends Controller
       $cond_name = $request->cond_name;
       if ($cond_name != '') {
           // 検索されたら検索結果を取得する
-          $posts = Profile::where('title',$cond_name)->get();
+          $posts = Profile::where('name',$cond_name)->get();
       } else {
           // それ以外はすべてのニュースを取得する
           $posts = Profile::all();
@@ -47,6 +47,9 @@ class ProfileController extends Controller
     //return view('admin.profile.edit');
     //return redirect('admin/profile/edit');
     $profile = Profile::find($request->id);
+    if (empty($profile)) {
+      abort(404);    
+    }
     return view('admin.profile.edit', ['profile_form' => $profile]);
   }
   
