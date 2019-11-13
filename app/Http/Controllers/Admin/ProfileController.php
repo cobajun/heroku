@@ -47,9 +47,6 @@ class ProfileController extends Controller
     //return view('admin.profile.edit');
     //return redirect('admin/profile/edit');
     $profile = Profile::find($request->id);
-    if (empty($profile)) {
-     abort(404);    
-    }
     return view('admin.profile.edit', ['profile_form' => $profile]);
   }
   
