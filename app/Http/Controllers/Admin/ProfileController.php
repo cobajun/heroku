@@ -44,12 +44,15 @@ class ProfileController extends Controller
   
   public function edit(Request $request)
   {
-    return view('admin.profile.edit');
+    //return view('admin.profile.edit');
     //return redirect('admin/profile/edit');
-    //$profile = Profile::find($request->id);
-
-    //return view('admin.profile.edit', ['profile_form' => $profile]);
+    $profile = Profile::find($request->id);
+    if (empty($profile)) {
+     abort(404);    
+    }
+    return view('admin.profile.edit', ['profile_form' => $profile]);
   }
+  
 
   public function update(Request $request)
   {
