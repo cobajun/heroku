@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Profile;
+use App\Revision;
+use Carbon\Carbon;
 
 class ProfileController extends Controller
 {
@@ -47,7 +49,7 @@ class ProfileController extends Controller
     //return view('admin.profile.edit');
     //return redirect('admin/profile/edit');
     $profile = Profile::find($request->id);
-
+    //Log::debug($request->id . ": " . $profile);
     return view('admin.profile.edit', ['profile_form' => $profile]);
   }
   
@@ -60,7 +62,13 @@ class ProfileController extends Controller
       unset($profile_form['_token']);
       $profile->fill($profile_form)->save();
       
-      return redirect('admin/profile/edit');
+      // Revision controll
+      $revision = new Revision;
+      $revision->profile_id = $profile->id;
+      $revision->edited_at = Carbon::now();
+      $revision->save();
+      
+      return redirect('admin/profile/edit?id='.$request->id);
   }
   
   public function delete(Request $request)

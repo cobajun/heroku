@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\News;
+use App\History; //History モデルの使用を宣言
+use Carbon\Carbon; //日付操作ライブラリ
 
 class NewsController extends Controller
 {
@@ -83,6 +85,12 @@ class NewsController extends Controller
       unset($news_form['_token']);
       // 該当するデータを上書きして保存する
       $news->fill($news_form)->save();
+      
+      // Hisotry controll
+      $history = new History;
+      $history->news_id = $news->id;
+      $history->edited_at = Carbon::now();
+      $history->save();
 
       return redirect('admin/news');
   }
