@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <p>なんか、画像がうまくアップされません。</p>
+        <p>画像が、表示されました！</p>
         <hr color="#c0c0c0">
         @if (!is_null($headline))
             <div class="row">
